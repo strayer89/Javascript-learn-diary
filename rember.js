@@ -55,8 +55,30 @@
 			*Number(除了上述情况) ---NAN
 			*Number(true)  --- 1
 	8> parseInt() 字符串 转化 数字
+			parseInt("12") / parseInt("12",2/8/10/16) 最好用这个
 		a> 第一个非数字或者+ - 号 ---返回NaN
-		b> 只显示数字
+		b> 只显示数字 （"123abc"只显示123）
+		c> parseInt(1.9) --- 1 小数点不是数字字符
+		d> 可以将任何进制数字型字符串转化为 整数型
 	9> parseFloat() 字符串 转化 数字
-	10>
+		a> 区别：only第一个小数点有效
+		b> 区别：忽略前导0
 
+6.string 数据类型
+	1> length属性 test.length 字符长度 （单字节字符有效
+	2> 特点：新的字符串生成，前面的销毁
+		var lang = "Java";
+		lang = lang + "Script";
+		lang = "JavaScript"; "Java"和"Script"销毁
+	3> 转化字符串
+		a> toString() 除了null 和 undefined ,其他数据类型都有 toString()方法 
+		b> toString() 可以输出2、8、16 进制字符串
+			var num = 100;
+			num.toString(2/8/10/16)
+		c> String() 转型函数
+			*如果有 toString()方法 用 toString();
+			*如果是 String(undefined) --- "undefined"
+			*如果是 String(null)      --- "null"	
+
+7.object 数据类型
+	1> 	
