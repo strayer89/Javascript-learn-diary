@@ -81,4 +81,6 @@
 			*如果是 String(null)      --- "null"	
 
 7.object 数据类型
-	1> 	
+	1> 	大写的懵B
+
+8.
