@@ -84,13 +84,13 @@
 	7.object 数据类型
 		1> 创建新的对象 var obj = new Object();  构造函数？？？
 		2> Object 的每个实例（？？）都具有以下的属性和方法
-			*Constructor 保存用于创建当前对象的函数。 上面构造函数就是 Object();
-			*hasOwnProperty("propertyName");  查看当前属性是否在当前对象实例中存在； 返回true/false
-			*isPropertyOf(object); 检查传入的对象是不是另一个对象的原形
-			*propertyIsEnumerable("propertyname"); 检查给定的属性是否能够使用for-in语句来枚举
+			*Constructor属性 保存用于创建当前对象的函数。 上面构造函数就是 Object();
+			*hasOwnProperty("propertyName")方法; 返回 true or false 查看当前属性是否在当前对象实例中存在； 返回true/false
+			*isPropertyOf(object); 返回 true or false 检查传入的对象是不是另一个对象的原形
+			*propertyIsEnumerable("propertyname")方法; 返回 true or false 检查给定的属性是否能够使用for-in语句来枚举
 			*toLocaleString()方法; 返回对象的字符串表示。该字符串与执行环境的地区对应
-			*toString()方法; 返回对象的字符串表示（返回[object Object]？？？）
-			*valueOf()方法; 返回对象的字符串、数值或者布尔值表示
+			*toString()方法; 返回对象的字符串表示  |返回 [object Object]？？？|
+			*valueOf()方法; 返回对象的字符串、数值或者布尔值表示 |obj.valueOf()???|
 
 
 二、操作符（算数操作符、位操作符、关系操作符、相等操作符）
@@ -130,7 +130,7 @@
 		*...没用
 
 	4.布尔操作符
-		a>逻辑非 （Boolean()转型再取反）
+		1>逻辑非 !data（Boolean()转型再取反）
 			*console.log(!"")		--- true 
 			*console.log(!0)		--- true 			
 			*console.log(!null)		--- true 
@@ -139,5 +139,86 @@
 			*console.log(!"str")	--- false 
 			*console.log(!123)		--- false 
 			*console.log(!undefined)--- false
+			*console.log(!!data == Boolean(data) ) 无论data是什么，都是true
+
+		2>逻辑与 data1 && data2
+			*逻辑与可以应用任何类型的操作数（not only boolean）
+			*有一个操作数不是布尔值，逻辑与不一定返回布尔值
+				a> 如果data1是对象，则返回data2
+				b> 如果dada2是对象，只有data1 == true ; 才会返回 data2
+				c> 如果data1、data2都是 object 返回第二个
+				d> data1 or data2 == null ; 	data1 && data2 == null;
+				e> data1 or data2 == NaN ; 		data1 && data2 == NaN;
+				f> data1 or data2 == undefined; data1 && data2 == undefined;
 			
-			 
+		3>逻辑或 data1 || data2
+			*逻辑或可以应用任何类型的操作数（not only boolean）	 
+			*data1是对象，返回data1
+			*data1 == true or false ;data2是对象，返回data2
+			*data1 和 data2 都是对象 ； 返回data1；
+			*data1 和 data2 都是 null/undefined/NaN 返回相应 null/undefined/NaN；
+			*data1 = undefined ; data2 = NaN ; data1 || data2 返回 data2;
+	 		*var myObject = preferredObject || backupObject;
+	 			a> 如果preferredObject != null; 将preferredObject 赋值 myObject;
+	 			b> 如果preferredObject == null; 将backupObject    赋值 myObject;
+
+	5.乘性操作符 data1 * data2 （乘法、除法、求模）
+		1> 不是数字的数据会后台用 Number() 转型函数转换；
+		2> 乘法 (data1 * data2)
+			*data1 与 data2 都是 number类型；正常计算；超过ECMAScript范围；返回 Infinity/-Infinity
+			*data1 或 data2 有一个是 NaN ; 返回 NaN;
+			*Infinity * 0 ;返回 NaN;
+			*Infinity * !0 ; 返回 Infinity/-Infinity;
+		3> 除法 (data1 / data2)
+			*data1 与 data2 都是 number类型；正常计算；超过ECMAScript范围；返回 Infinity/-Infinity
+			*data1 或 data2 == NaN ; 返回 NaN;
+			*Infinity/Infinity  ;返回 Infinity;
+			*0/0 ; 返回 NaN
+			*0/number; 返回 Infinity/-Infinity;
+			*number/Infinity; 返回 Infinity/-Infinity;
+		4> 求模 ( data1 % data2)
+			*意思：取余数；
+			*都是数值，常规
+			*Infinity/number = NaN;
+			*number/0 = NaN;
+			*Infinity/Infinity = NaN;
+			*number/Infinity = number;
+			*0/number = 0;
+	6> 加性操作符
+		1> 不是数字的数据会后台用 Number() 转型函数转换；
+		2> 加法(data1 + data2)
+			*data1 或者 data2 是 NaN; 返回 NaN；
+			*Infinity + -Infinity; 返回 NaN;
+			*其他数据类型相加，自动转化字符串拼接
+				a>如果有一个是 String，将另一个转化字符串后拼接；
+				b>如果两个都是 String, 直接拼接
+				c>如果是 Object/Boolean/Number,则用 toString()转成字符串
+				d>如果是 null / undefined ; 用 String() 转成"null"/"undefined"
+			 	e>Number + String
+			 		var num1 = 1;
+			 		var num2 = 2;
+			 		var str = "1 + 2 = ";
+			 		console.log(str + num1 + num2) --- "1 + 2 = 12";
+			 		console.log(str + (num1 + num2)) --- "1 + 2 = 3" 告诉计算机先执行括号；
+		3> 减法 (data1 - data2)
+			*都是数字，正常减法
+			*有一个是 NaN ；返回 NaN;
+			*Infinity - Infinity = NaN;
+			*-Infinity - -Infinity = NaN;
+			*非number类型数据;后台调用 Number();
+	7> 关系操作符 返回 Boolean;	
+		1> data1 >= 或 <= 或 = 或 > 或 < data2;
+		2> 都是 Number; 比较
+		3> 都是 String; 比较字符编码值
+		4> 有一个是 Number，将另一个转化 Number 后比较
+		5> 有一个是 Object, valueOf() --> toString()后比较
+		6> 有一个是 Boolean, 转化数值后比较
+		
+
+
+
+
+
+
+
+
