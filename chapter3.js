@@ -488,6 +488,7 @@ JavaScript高级程序设计（第三版）
 			}
 
 四、函数
+<<<<<<< HEAD:chapter1-3.js
 	0> function functionName(arg0,arg1,arg2,...,ageN){statement}
 	1> 严格模式对函数的一些限制
 		* 不能把函数命名为 eval 或 arguments
@@ -522,3 +523,7 @@ JavaScript高级程序设计（第三版）
 	* ECMAScript 没有函数签名的概念，因为其函数参数是以一个包含零活多个值得数组的形式传递。
 	* 可以向 ECMAScript函数传递任意数量参数，并通过arguments对象访问这些参数。
 	* 由于不存在函数签名的特性，ECMAScript函数不能重载
+=======
+	1> function functionName(arg0,arg1,arg2,...,ageN){statement}
+	2> 1
+>>>>>>> origin/master:Js_learn_diary.js
