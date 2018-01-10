@@ -370,4 +370,4 @@
 
 四、函数
 	1> function functionName(arg0,arg1,arg2,...,ageN){statement}
-	2> 
+	2> 1
