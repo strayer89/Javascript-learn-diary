@@ -213,12 +213,161 @@
 		4> 有一个是 Number，将另一个转化 Number 后比较
 		5> 有一个是 Object, valueOf() --> toString()后比较
 		6> 有一个是 Boolean, 转化数值后比较
-		
+			*"Break" < "alphabet"   --- true;   "B"的字符编码<"a"字符编码
+			*"23" < "3"  --- true;  "2"的字符编码50，"3"的字符编码51
+			*"23" < 3  --- false;  字符串与数值比较会 Number();
+			*"a" < 3   --- true;   "a" 未NaN
+			*NaN < 3 与 NaN >= 3 都返回false；
+	8> 相等操作符
+		1> String/Boolean/Number 直接进行比较
+		2> Object 相等和不等 先转换再比较
+		3> Object 全等和不全等 先比较再转换
+		4> 相等和不等 data1 == data2 or data1 != data2
+			*先转换操作数再比较
+			*有一个是 Boolean 转换 0/1
+			*String == Number ;字符串转换数值
+			*Object == not Object; 对象调用 valueOf()方法;
+			*在比较相等性之前，不能将 null 和 undefined 转换成任何值
+			*Object == Object ; 比较操作数是不是指向同一个对象
+			*特殊情况
+				- null == undefined --- true;
+				- "5" == 5			--- true;
+				- false == 0 		--- true;
+				- true == 1 		--- true;
+				- "NaN" == NaN      --- false;
+				- 5 == NaN          --- false;
+				- NaN == NaN   		--- false;
+				- NaN != NaN 		--- true;
+				
+				- true == 2 		--- false;
+				- undefined == 0	--- false;
+				- null == 0			--- false;
+				 
+		5> 全等和不全等 data1 === data2 or data1 !== data2;
+			*首先是相同数据类型
+			*其次进行相等比较
 
+	9> 条件操作符
+		* variable = boolean_experssion ? true_value : false_value;
+		* var max = (num1 > num2) ? num1 : num2;
+		* 基于 boolean_experssion的求值结果；true 赋值true_value; false 赋值 false_value;
+		* var data = Boolean ? true : false ;
+	10> 赋值操作符
+		* var num = 10; num = num + 10;
+		* var num +=10;
+		* "*=" | "+=" | "/=" | "%=" | "-=" | "<<=" | "<<=" |
+		* 只是简化操作，不能带来性能提升；
+	11> 逗号操作符
+		* 使用","可以在一条语句执行多个操作
+		* var num1 = 1, num2 = 2, num3 = 3;
 
+三、语句（流控制语句）
+	1> if 语句
+		* if (consition) statement1 else statement2;
+		* 	if(任何数据 非 Boolean 将调用 Boolean()){
+				statement1;
+			}else{
+				statement2;
+			}
 
+	2> do-while 语句 （后测试循环语句）
+		* 最常用于循环体中的代码至少执行型一次
+		*	do {
+				statement1;
+			}while(expression){
+				statement2;
+			}
 
+	3> while 语句 （前测试循环语句）
+		* while(expression) statement
 
+	4> for 语句
+		* for(var i=0; i<10; i++){}
+		* for(var i=0; i<10;){
+				statement;
+				i++;
+			}
+		*以上两个句子相同意思
+		* i的值外部可以访问
 
+	5> for-in 语句
+		* 在执行 for-in 循环之前，最好保证 Object 不是 null / undefined;
+		* for-in 是一种精准的迭代语句，可以用来枚举对象的属性
+		* for (property in expression) statement;
+		* for (var propName in window){
+			console.log(propName)
+	8> label 语句
+		*label : statement;
+		*start : for(var i=0; i<10; i++){
+			alert(i);
+		}
+		*上面例子中定义的start标签将来可以由 break 或者 continue 语句引用；
+		*label语句一般与 for 循环语句配合使用；
 
+	9> break 和 continue 语句
+		* 用于在循环中精确控制代码执行；
+		* break 立即退出循环，执行后面的语句；
+		* continue 立即退出循环，退出循环后从循环的顶部继续执行；会缺少循环次数；
+		* 与label配合使用
+			var num = 0;
+			outermost:
+			for(var i=0; i<10; i++){
+				for(var j=0; j<10; j++){
+					if(i==5 && j==5){
+						continue outermost;
+					}
+					num++;
+				}
+			}
+			num = 95;
 
+			var num = 0;
+			outermost:
+			for(var i=0; i<10; i++){
+				for(var j=0; j<10; j++){
+					if(i==5 && j==5){
+						continue outermost;
+					}
+					num++;
+				}
+			}
+			num = 95;
+			上侧去掉outmost，num=99;
+		*label加载 continue 和 break 后面；意思是跳出后继续执行；
+		*continue 和 label区别 continue 跳出本个循环； label跳出到label循环；
+	10> with 语句
+		*大量使用 with 语句会使性能下降；
+		*会给代码调试造成苦难；
+		*严格模式下不允许使用 with 语句；
+
+	11> switch 语句
+		* 每个case都会返回布尔值
+		* switch在比较时使用的是全等操作符；===
+		* switch(expression){
+			case value:
+				statement
+				break;
+			case value:
+				statement
+				break;
+			case value:
+				statement
+				break;
+			default: 
+			statement
+			}
+		* 如果表达式等于这个值（value），则执行后面的代码（statement）；
+		*等同于
+			if(i == 25){
+				alert("25")
+			}else if(i == 35){
+				alert("35")
+			}else if(i == 45){
+				alert("45")
+			}else{
+				alert("other");
+			}
+
+四、函数
+	1> function functionName(arg0,arg1,arg2,...,ageN){statement}
+	2> 
