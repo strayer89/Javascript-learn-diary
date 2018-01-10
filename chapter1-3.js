@@ -1,3 +1,122 @@
+JavaScript高级程序设计（第三版）
+
+第一章 JavaScript简介
+    JavaScript开始用于用户端的数据验证。
+    JavaScript从一个简单的数据验证器发展成为一门强大的编程语言
+    真正掌握这一门语言需要数年，要想全面理解和掌握JavaScript，关键在于弄清楚他的本质、历史和局限性。
+
+1.1 JavaScript 简史
+        javaScript是由Netscape Navigator 和 Sun公司开发的。其后微软开发Jscript。
+        1997年JavaScript 1.1提交给ECMA, 完成了ECMA-262 ----定义一种名为ECAMScript的新脚本语言的标准。 
+     
+1.2 JavaScript 实现
+          javaScrip实现由三个不同的部分组成
+        1、核心（ECMAScript）
+        2、文档对象模型（DOM）
+        3、浏览器对象模型（BOM）
+    1.2.1  ECMAScript
+        Web浏览器只是ECMAScript实现可能的宿主环境之一。
+        宿主环境不仅提供基本的ECMAScript实现，同时也提供给语言的扩展（如DOM，利用ECMAScript的核心类型和语法提供更具体的功能）
+        其他的宿主环境包括Node（一种服务端的JavaScript平台）和Adobe Flash
+        ECMA-262规定了这门语言的语法、类型、语句、关键字、保留字、操作符、对象
+    1.2.2 文档对象模型（DOM）
+         DOM是针对XML但经过扩展 用于HTML的应用程序接口API (application programming interface）
+            
+小结
+  JavaScript是一种专为与网页交互而设计的脚本语言，由下列三个不同部分组成：
+  1、ECMAScript，由ECMA-262定义，提供核心语言功能；
+  2、文档对象模型（DOM），提供访问和操作网页内容的方法和接口；
+  3、浏览器对象模型（BOM），提供与浏览器交互的方法和接口。
+
+
+
+第二章 在HTML中使用JavaScript
+2.1 <script>元素
+   1、<script>元素的6个属性：async / charset / defer / language / src / type 只要记住src路径和type类型就可以了，其他没用
+   2、<script>内部嵌套时必须加上type="text/javascript".
+   3、包含在<script>标签内部的代码将被从上至下解释。在解释完毕之前，页面中的其他内容不会被浏览器加载或者显示。
+   4、外部引用js文件的<script>标签之间不能有内容，否则内容被忽略
+   5、<script>标签的属性src可以跨域，同理<img>标签的src属性
+   6、<script>标签放在<body>标签的最后面
+    2.1.1 延迟脚本
+    1、说了一堆，还是推荐把<script>应用外部脚本放在body标签最后面
+2.2 嵌入代码与外部文件    
+    1、推荐使用外部js代码，可维护性高，可缓存，适应未来
+2.3文档模式（有用吗？？）
+    1、混杂模式（quirks mode）
+      2、标准模式（standards mode）
+      3、准标准模式（almost standards mode）
+
+小结
+    1、在引用外部js文件时，src属性既可以导入同一个服务器上的文件也可以导入不同服务器上的文件
+    2、所有script标签都会按照他们在页面上的先后顺序解析。在不使用defer和async属性时，所有浏览器都是先解析完成前一个script才会解析下一个。
+    3、使用defer属性可以让脚本在文档完全呈现之后再执行。延迟脚本总是按照指定它们的顺序执行
+    4、使用async属性可以表示当前脚本不必等待其他脚本，也不必阻塞文档呈现。不能保证异步脚本按照先后顺序执行。               
+
+3.1 语法
+    3.1.1 区分大小写
+        --ECMAscript中的一切（变量、函数名和操作符）都区分大小写。
+
+    3.1.2 标识符（自己定义的名字或者参数）
+        --标识符：变量、函数、属性的名字，或者函数的参数。
+        --第一个字符必须是一个字母、_ 或者 $ 。
+        --其他字符可以是字母、_ 、$ 、数字 。（数字不可以开头）
+
+    3.1.3 注释
+        -- 单行注释 //
+        -- 多行注释 /****/
+
+    3.1.4 严格模式  （支持浏览器 ie10+  firefox 4+ safari 5.1+ opera 12+）
+        -- ECMAScript 5 引入的严格模式
+        -- 严格模式下 ECMAScript 3中的不确定行为得到处理，不安全的操作也会抛出错误。
+        -- 整个脚本启用严格模式 ，在顶部写*use strict*
+        -- 函数内部上方 *use strict* 也可以指定函数在严格模式
+    3.1.5 语句
+        -- 分号结尾
+
+    3.2 关键字和保留字
+         
+    3.3 变量
+        -- ECMAscirpt 的变量是松散类型的。（可以用来保存任何类型的数据，每一个变量只是一个占位符  ）
+        -- var message;  (未初始化默认 var message = undefined )
+        -- 函数内部定义的变量在外部不会显示 ---局部变量
+
+        function test1(){
+            var message = "abc";
+        }
+        test1();
+        console.log(message)  //报错
+
+        function test1(){
+            message = "abc";  //定义了一个全局变量
+        }
+        test1();
+        console.log(message)  //出来abc 只要调用过test1（）； message就有意义
+    
+
+        -- 最好不要这样操作，严格模式下会出错
+
+    3.4 数据类型
+        -- ECMAScript 有5种简单数据类型 Number / String / Boolean / Undefined / Null
+        -- 一种复杂数据类型 Object 本质是由一组无序的名值对组成
+       3.4.1 typeof 操作符
+            -- typeof 操作符返回字符串 “undefined” “boolean” “string” “number” “object” "function"
+            -- typeof null  返回object
+            -- typeof 正则表达式 返回 { Safari 5 以及 chrome 7 之前 "“function”"  其他的浏览器返回 “object”}
+
+        3.4.2 Undefined 类型
+                  -- 建议声明并初始化（赋值）变量； 这样typeof操作符出现undefined 就有了具体含义（未声明变量）
+        3.4.3 Null 类型
+            -- 如果定义变量将来用于储存对象，那么最好初始化未null而不是其他值
+            -- 
+        3.4.4 Boolean 数据类型
+        
+        3.4.5 Number 数据类型
+            
+
+        3.4.6 String 数据类型 
+        3.4.7 Object 数据类型
+
 一、数据类型与函数
 	1.typeof 操作符 new 操作符
 		typeof test
@@ -369,5 +488,37 @@
 			}
 
 四、函数
-	1> function functionName(arg0,arg1,arg2,...,ageN){statement}
-	2> 
+	0> function functionName(arg0,arg1,arg2,...,ageN){statement}
+	1> 严格模式对函数的一些限制
+		* 不能把函数命名为 eval 或 arguments
+		* 不能把参数命名为 eval 或 arguments;
+		* 不能出现两个命名参数同名的情况
+		* 出现以上情况，就会导致语法错误，代码无法执行；
+	2> 理解参数
+		* arguments 属性
+		* 在函数内部， arguments 属性为参数对象，可以通过 arguments.length 确定参数个数
+		* 单独访问每个参数可以用 arguments[0] ...
+		* 通过传递参数个数进行不同操作
+			function(){
+				if(arguments.length ==0){
+					statement;
+				}else if(arguments.length == 1){
+					statement;
+				}
+			}
+		* ECMAScirpt严格模式通过 arguments[0] = 10; 这样的操作无效；
+		* 没有的参数为 undefined；
+		* ECMAScirpt中传递的都是值，不可能通过引用传递参数； ？？？？
+	3> 没有重载
+		* 两个函数同名，则后定义函数覆盖先定义函数；
+
+小结：
+	* ECMAScript 中的基本数据类型 Undefined / Boolean / String/ Number / null 
+	* ECMAScript 中的复杂数据类型 Object; 该类型是这门语言中 |所有对象的基础类型|
+	* 严格模式为这门语言中容易出错的地方施加了限制
+	* ECMAScript 提供了 算数操作符、布尔操作符、关系操作符、相等操作符、复制操作符；
+	* 无需指定函数的返回值，因为 ECMAScript 函数可以在任何时候返回任何值；
+	* 实际上，未指定返回值的函数返回的是一个特殊的 undefined 值；
+	* ECMAScript 没有函数签名的概念，因为其函数参数是以一个包含零活多个值得数组的形式传递。
+	* 可以向 ECMAScript函数传递任意数量参数，并通过arguments对象访问这些参数。
+	* 由于不存在函数签名的特性，ECMAScript函数不能重载
