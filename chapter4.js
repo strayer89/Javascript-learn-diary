@@ -111,8 +111,56 @@ chapter 4 变量作用域与内存问题
 			i 相当于全局变量；
 		* var 申明的变量自动添加到最接近的环境中。
 		* 未用 var 申明自动添加到全局变量；
+		! 查询标识符规则
+			var color = "blue";
+			function getColor(){
+				return color;
+			}
+			alert(getColor()); //"blue";
+			-首先在 getColor() 内部寻找，没找到才会向外部查找。
+			-如果找到了，则不会向上一级查找。
+			var color = "blue";
+			function getColor(){
+				var color = "red";
+				return color;
+			}
+			alert(getColor()); // "red";
+		/变量是 window 的属性， function 是window 的方法/
 4.3.垃圾收集
 	4.3.1 标记清除
 	4.3.2 引用计数
 	4.3.3 性能问题
 	4.3.4 管理内存
+		* 解除引用（dereferencing）
+		* 局部变量会在它们离开执行环境时自动被解除引用
+			function createPerson(name){
+				var localPerson = new Object();
+				localPerson.name = name;
+				return localPerson;
+			}
+			var globalPerson = createPerson("Nicholas");
+
+			--手工解除 globalPerson 的引用
+			globalPerson = null;
+			--localPerson对象在函数运行完毕后已经被删除。
+
+		* 解除一个值的引用并不意味着自动回收该值所占的内存。解除引用的真正作用是让值脱离执行环境，以便下次回收；
+
+	小结：
+		* js变量可以保存两种类型的值：基本类型值和引用类型值。
+		*特点：
+			a> 基本类型值在内存中占据固定大小的空间，因此被保存在栈内存中；
+			b> 从一个变量向另一个变量赋值基本类型值，会创建这个值得一个副本；
+			c> 引用类型的值是对象，保存在堆内存中；
+			d> 包含引用类型值得变量实际上包含的并不是对象本身，而是一个纸箱该对象的指针；
+			e> 从一个变量向另一个变量赋值引用类型的值，赋值的其实是指针，因此两个变量最终都指向同一个对象；
+			f> 确定一个值是那种基本类型可以使用 typeof 操作符，而确定一个值是那种引用类型可以使用 instanceof 操作符。
+			g> 所有变量都存在一个执行环境（作用域）当中，这个执行环境决定了变量的生命周期，以及那一部分代码可以访问其中的变量 
+			h> 执行环境有全局执行环境和函数执行环境之分；
+			i> 每次进入一个新的执行环境，都会创建一个用于搜索变量和函数的作用域链；
+			j> 函数的局部环境有权访问所有环境
+			k> 全局环境只能访问在全局中定义的变量或者函数
+			l> 变量的执行环境有助于确定应该合适释放内存。
+			m> 垃圾收集算法："标记清除"、"引用计数"
+			n>
+			o>
