@@ -58,7 +58,43 @@ chapter 4 变量作用域与内存问题
 		console.log(nu instanceof Array)
 		console.log(nu instanceof RegExp)
 4.2.执行环境及作用域
+	* 全局执行环境是 window 对象
+	* 所有变量和函数都是 window 对象的属性和方法创建的。
+	* 某个执行环境的所有代码执行完毕后，该环境被销毁。
+	* 保存在该环境的所有变量和函数也随之销毁
+	* 全局执行环境直到浏览器退出---关闭页面或者浏览器才会被销毁
+	* 每个函数都有自己的执行环境。
+	* 当执行环境流入一个函数时，函数的环境会被推入一个环境栈中。
+	* 函数执行完毕后，栈将其环境推出，把控制权返回给之前的执行环境
+	* ECMAScript中的执行流就是由这个方便的机制控制的。
+	* 全局执行环境的变量对象始终都是作用域链中的最后一个对象。
+	* 标识符解析时沿着作用域链一级一级地搜索标识符的过程。
+	* 下例
+		var color = "blue";
+		function changeColor(){
+			if(color == "blue"){
+				color = "red";
+			} else {
+				color = "blue";
+			}
+		}
+		changeColor();
+		alert("color is now" + color);
+	* 在局部作用域中定义的变量可以和全局变量互换使用；
+		var color = "blue";
+		function changeColor(){
+			var anotherColor = "red";
+			function swapColors(){
+				var tempColor = anotherColor;
+				anotherColor = color;
+				color = tempColor;
+			}
+			swapColors();
+		}
+		changeColor();
+	* 函数的参数也会被当做变量来对待，相当于函数内部 var 一个变量；
 	4.2.1 延长作用域链
+		
 	4.2.2 没有块级作用域
 4.3.垃圾收集
 	4.3.1 标记清除
