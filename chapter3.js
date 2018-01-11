@@ -455,6 +455,18 @@ JavaScript高级程序设计（第三版）
 		*label加载 continue 和 break 后面；意思是跳出后继续执行；
 		*continue 和 label区别 continue 跳出本个循环； label跳出到label循环；
 	10> with 语句
+		* 将代码的作用域设置到一个特定的对象中
+		* 语法 with (expression) statement;
+		* with 语句主要作用：简化多次编写同一个对象的工作；
+			var qs = location.search.substring(1);
+			var hostName = location.hostname;
+			var url = location.href;
+			---
+			with(location){
+				var qs = search.substring(1);
+				var hostName = hostname;
+				var url = href;
+			}
 		*大量使用 with 语句会使性能下降；
 		*会给代码调试造成苦难；
 		*严格模式下不允许使用 with 语句；
