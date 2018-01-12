@@ -4,3 +4,8 @@
 4.preferred  [prɪ'fɝd]' 首选的
 5.instanceof 实例判断对象类型
 6.dereferencing 解除引用
+7.push 推入
+8.pop 弹出
+9.shift 转移
+10.reverse 颠倒
+11.

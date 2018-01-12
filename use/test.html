@@ -6,19 +6,13 @@
 </head>
 <body>
 	<script type="text/javascript">
-		var bbc = 10;
-		var obj = {
-			name:"kk",
-			age:23,
-			valueOf:function(e){
-				e++;
-				return e;
-			}
-		}
-		console.log(obj.valueOf(bbc))
-		for(pro in obj){
-			console.log(pro)
-		}
+		function compare(arg1,arg2){
+			return arg2 - arg1;
+		};
+		var arr = [1,5,6,8,15,32,65,"12321","abcdefgh",85,95,75];
+		arr.sort(compare);
+		var str = "abcdefgh";
+		console.log(str - 75)
 	</script>
 </body>
 </html>
