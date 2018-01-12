@@ -6,15 +6,19 @@
 </head>
 <body>
 	<script type="text/javascript">
-		var name = "kkk";
-		function add(){
-			var abc = "bbb";
-			return abc;
-			bbc:function(){
-				return "bbc";
+		var bbc = 10;
+		var obj = {
+			name:"kk",
+			age:23,
+			valueOf:function(e){
+				e++;
+				return e;
 			}
 		}
-		console.log(window.add.bbc());
+		console.log(obj.valueOf(bbc))
+		for(pro in obj){
+			console.log(pro)
+		}
 	</script>
 </body>
 </html>
