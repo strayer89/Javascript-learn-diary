@@ -136,6 +136,72 @@
  						return arg1 - arg2;
  					}
  		3> reverse() 和 sort() 返回值都是重新排序的数组
+ 	5.2.6 操作方法
+ 		1> concat() 方法
+			* 基于当前数组创建新数组
+			* 先创建当前数组的一个副本；
+			* 将接收到的参数添加到副本的末尾
+			* 返回新的数组
+				var colors = ["red","green","blue"];
+				var addColors = colors.concat("yellow",["kk","zz","tt"]);
+				console.log(colors);
+				console.log(addColors);
+		2> slice() 方法
+			* 一个参数时：从这个参数位置起始向后，返回全部的项的一个新的数组；
+			* 两个参数时：返回起始位置到结束位置的项，不包含结束位置；
+			* 例子：
+				var color = ["red","blue","yellow","green","black"];
+				var colorSlice1 = color.slice(1); ---["blue","yellow","green","black"];
+				var colorSlice2 = color.slice(1,4); ---["blue","yellow","green"]
+			* 如果参数是负数，则加上数组长度
+			* 如果结束位置小于开始位置，返回空数组
+		3> splice() 方法
+			直接作用原数组
+			* 删除：可以删除任意数量的项，指定2个参数：要删除项的第一项位置和要删除的项数
+				- splice(0,2); 删除数组的前两项
+			* 插入：可以向指定位置插入任意数量的项，需要三个参数：起始位置、要删除的项数、要插入的项。
+				- splice(2,0,"red","green"); 从当前数组位置2开始插入两个字符串项
+			* 替换：起始位置、要删除的项数、要插入的项
+				- splice(2,1,"kkk"); 删除一项，添加“"kkk"
+ 	5.2.7 位置方法
+ 			* 两个参数：要查找的项和表示朝赵起点位置的索引；
+ 			* 返回查找到的项的位置下标
+ 			* 未找到返回-1
+ 			* 只要找到就返回，不会继续查找
+ 		1> indexOf() 方法
+ 			* 从前向后查找
+ 			* 例子：
+ 				var arr = [1,2,3,4,5,6,7,6,5,4,3,2,1];
+ 				var fNum = arr.indexOf(4);
+ 				console.log(fNum);
+ 		2> lasetIndexOf() 方法
+ 			* 从后向前查找
+ 	5.2.8 迭代方法
+ 			* ECMAScript为数组定义了5个迭代方法。每个方法都接收两个参数
+ 		1> every():   对数组的每一项运行给定的函数，如果每一项都返回 true ,则返回 true;
+ 		2> filter():  对数组的每一项运行给定的函数，返回该函数会返回 true 的项组成的数组
+ 		3> forEach(): 对数组的每一项运行给定的函数，这个方法没有返回值
+ 		4> map():     对数组的每一项运行给定的函数，返回每次函数调用的结果组成的数组
+ 		5> some():    对数组的每一项运行给定的函数，如果该函数对任一项返回 true,则返回 true
+ 		* 例子： 
+ 			var num = [1,2,3,4,5,4,3,2,1];
+ 			var everyResult = num.every(function(item,index,array){
+ 				return (item > 2);
+ 			});
+ 			var somgResult = num.some(function(item,index,array){
+ 				return (item > 2);
+ 			});
+ 			var filterResult = num.filter(function(item,index,array){
+ 				return (item > 1);
+ 			});
+ 			var mapResult = num.map(function(item,index,array){
+ 				return item*2;
+ 			});
+ 		* 支持：ie9+ 、 firefox 3+ 、 opera9.5+ 、 chrome
+ 	5.2.9 缩小方法
+ 		* 都接收两个参数：一个在每一项上调用的函数和作为缩小基础的初始值
+ 		1> reduce() 方法
+ 		2> reduceRight() 方法
  5.3 Date 类型
  5.4 RegExp 类型
  5.5 Function 类型
