@@ -203,7 +203,126 @@
  		1> reduce() 方法
  		2> reduceRight() 方法
  5.3 Date 类型
+ 	* 1970年1月1日午夜开始进过毫秒数来保存日期；精确度 28 万年
+ 	* UTC 国际协调时间
+ 	* 创建对象
+ 		* var now = new Date();
+ 		* 不传参的情况下获取当前时间；
+ 		* 传递的参数必须以毫秒记
+	 	* 返回日期毫秒数的方法：将具体日期返回成数字型字符串，以毫秒记；
+	 		1> Date.parse();
+	 			- 接收一个表示日期的字符串参数，然后根据参数返回毫秒数。
+	 		2> Date.UTC();
+	 			- 参数：年份、基于0的月份、月中的那一天、小时数、分钟、秒、毫秒
+	 			- 只有年份和月份参数时必须的
+	 			- 例子：
+	 				-- 生日
+	 				var myBirthday = new Date(Date.UTC(1989, 11, 11));
+	 				-- 具体日期 2005年5月5日下午5：:5:55
+	 				var allFive = new Date(Date.UTC(2005, 4, 5, 17, 55, 55));
+	* 所以创建具体日期时间
+		- var tme = new Date(2005, 11, 22, 12, 30, 55);
+	* ECMAScript 5 新方法
+		- Date.now();
+			var start = Date.now();
+			doSomething();
+			var stop = Date.now();
+			result = stop - start; //doSomething() 所用的时间
+			console.log(result);
+
+			在向下兼容模式中如下：
+			var start = +Date.now();
+			doSomething();
+			var stop = +Date.now();
+			result = stop - start;
+			console.log(result);
+ 	5.3.1 继承的方法
+ 	5.3.2 日期格式化方法
+ 		* Date 类型还有一些专门用于将日期格式转化为字符串的方法；
+ 			1> toDateString(); 于特定于实现的格式显示星期、月、日和年
+ 			2> toTimeString(); 以特定于实现的格式显示时、分、秒和时区
+ 			3> toLocaleDateString() 以特定于地区的格式显示星期、月、日和年
+ 			4> toLocaleTimeString(); 以特定于实现的格式显示时、分秒
+ 			5> toUTCString(); 以特定于实现的格式完整的UTC日期
+ 	5.3.3 日期、时间组件方法
+ 		* UTC 日期：在没有时区偏差的情况下（将日期转换为GMT时间）的日期值；
+ 		* 方法：
+ 			a> 获取日期对象的参数：
+	 			1> getTime();		-- 返回表示日期的毫秒数
+	 			2> getFullYear();	-- 返回年份
+	 			3> getMonth();		-- 返回月份
+	 			4> getDate();		-- 返回月份中的天数
+	 			5> getDay();		-- 返回星期		
+	 			6> getHours();		-- 返回小时
+	 			7> getMinutes();	-- 返回分钟
+	 			8> getSeconds();	-- 返回秒数
+	 			9> getMilliseconds();- 返回毫秒数
+	 		b> 设置对象的参数(返回的是毫秒数)
+	 			1> setTime();
+	 			2> setFullYear();
+	 			3> setMonth();
+	 			4> setDate();
+	 			5> setDay();
+	 			6> setHours();
+	 			7> setMinutes();
+	 			8> setSeconds();
+	 			9> setMilliseconds();
+	 		c> getTimezoneOffset(); 返回本地时间与UTC时间相差的分钟数。
  5.4 RegExp 类型
+ 	* ECMAScript通过 RegExp 类型来支持正则表达式。
+ 	* 创建字面量正则表达式：
+ 		var expression = / pattern / flags;
+	 	* 每个正则表达式都可以带有一个或多个标志（flags）；
+	 		1> g : 表示全局（global）模式；发现第一个匹配的也不会停止；
+	 		2> i : 表示不区分大小写（case-insensitive）模式；
+	 		3> m : 表示多行（multiline）模式，到达一行文本末尾时还有继续朝赵下一行；
+	 	* 例子：
+	 		a> 匹配字符串中素有"at"的实例
+	 			var pattern1 = /at/g;
+	 		b> 匹配第一个"bat"或"cat",不区分大小写；
+	 			var pattern2 = /[bc]at/i;
+	 		c> 匹配所有以"at"结尾的三个字符的组合，不区分大小写
+	 		 	var pattern3 = /.at/gi;
+	 	* 正则表达式元字符/     ( [ { \ ^ $ | ) ? * + . ] }
+		* 如果要匹配的字符串中有元字符，需要转义 \
+			a> 匹配第一个"[bc]at",不区分大小写；
+				var pattern1 = /\[bc\]at/;
+			b> 匹配所有".at",不区分大小写；
+				var pattern2 = /\.at/gi;
+	* new 操作符创建正则
+		字面量： 	var pattern1 = /[bc]at/gi;
+		构造函数：	var pattern1 = new RegExp("[bc]at","gi");
+				字面量模式				等价的字符串
+				/\[bc\]at/			"\\[bc\\]at"			
+				/\.at/				"\\.at"
+				/name\/age/			"name\\/age"
+				/\d.\d(1,2)/		"\\d.\\d(1,2)"
+				/w\\hello\\123/		"\\/w\\\\hello\\\\123"
+	* 使用字面量创建和 RegExp 构造函数创建正则时不一样的。
+	* !bug 在ECMAScript3 中，字面量始终会共享同一个 RegExp 实例，而使用构造函数创建的每一个新的 RegExp 都是一个新的实例；
+		var re = null,
+				 i;
+		for(i=0; i<10; i++){
+			re = /cat/g; //(ECMAScript 3中只创建一次)
+			var test1 = re.test("catastrophe");
+			console.log(test1);
+		};
+		for(i=0; i<10; i++){
+			re = new RegExp("cat","g");
+			var test2 = re.test("catastrophe");
+			console.log(test2);
+		}
+	5.4.1 RegExp 的实例属性
+		1> global: 布尔值，表示是否设置了"g"标志
+		2> ignoreCase: 布尔值，表示是否设置了"i"标志
+		3> lastIndex: 整数，表示开始搜索下一个匹配项的字符位置，从0算起。
+		4> multiline: 布尔值，表示是否设置了"m"标志。
+		5> source: 正则表达式的字符串表示，按照字面量形式而非传入构造函数中的字符串模式返回。
+	5.4.2 RegExp 的实例方法
+		1> exec() 方法；
+			* 专门为捕获组而设计的
+			* 接收一个参数，要应用模式的字符串
+			
  5.5 Function 类型
  5.6 基本包装类型
  5.7 单体内置对象
