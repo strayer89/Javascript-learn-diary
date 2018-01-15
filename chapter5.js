@@ -269,6 +269,20 @@
 	 			9> setMilliseconds();
 	 		c> getTimezoneOffset(); 返回本地时间与UTC时间相差的分钟数。
  5.4 RegExp 类型
+ 	* 基础：
+ 		1> .	匹配任意单个字符 （除了\n）
+ 		2> \w 	匹配数组、字母、下划线
+ 		3> \s 	匹配任何空白字符
+ 		4> \d 	匹配单个数字字符
+ 		5> \b 	匹配单词的开始、结尾字母
+ 		6> ^ 	匹配字符串的开始
+ 		7> $ 	匹配字符串的结尾
+ 		8> *	出现0到多次
+ 		9> + 	出现一次或多次
+ 		10> ? 	出现零次或一次
+ 		11> {n} 出现n次
+ 		12> {n,m} 出现n-m次
+ 		13> {n,} 出现n-多次
  	* ECMAScript通过 RegExp 类型来支持正则表达式。
  	* 创建字面量正则表达式：
  		var expression = / pattern / flags;
@@ -322,8 +336,244 @@
 		1> exec() 方法；
 			* 专门为捕获组而设计的
 			* 接收一个参数，要应用模式的字符串
-			
+			* 包含两个属性 index 和 input，index 表示匹配项在字符串中的位置，input 表示应用正则表达式的字符串
+		2> test() 方法；
+			* 接收一个字符串参数。匹配返回 true ,不匹配返回 false
+			* 例子：
+				var text = "000-00-0000";
+				var pattern = /\d{3}-\d{2}-\d{4}/;	
+				if(pattern.test(test)){
+					alert("the pattern was matched");
+				}
+			* RegExp 实例继承的 toLocaleString() 和 toString() 方法返回正则表达式的字面量
+				var pattern = new RegExp("\\[bc\\]at","gi");
+				alert(pattern.toString());
+				alert(pattern.toLocaleString());
+			* 正则表达式的 valueOf() 方法返回正则表达式本身；
+	5.4.3 RegExp 构造函数的属性
+		1> 例子：	
+			var text = "this has been a short summer";
+			var pattern = /(.)hort/g;
+			if(pattern.test(text)){
+				alert(RegExp.input);		// this has been a short summmer
+				alert(RegExp.leftContest);	// this has been a
+				alert(RegExp.rightContest); // summer
+				alert(RegExp.lastMatch);	// short
+				alert(lastParen);			// s
+				alert(multiline);			// false
+			}
+		2> 用短属性名表示
+			var text = "this has been a short summer";
+			var pattern = /(.)hort/g;
+			if(pattern.test(text)){
+				alert(RegExp.$_);		// this has been a short summmer
+				alert(RegExp.["$`"]);	// this has been a
+				alert(RegExp.["$'"]); 	// summer
+				alert(RegExp.["$&"]);	// short
+				alert(RegExp.["$+"]);	// s
+				alert(RegExp.["$*"]);	// false
+			}
  5.5 Function 类型
+ 	* 函数实际上是对象
+ 	* 每个函数都是 Function 类型的实例，具有属性和方法
+ 	* 字面量创建：
+ 		function sum(num1,num2){
+ 			return num1 + num2;
+ 		}
+ 		等同于：
+ 		var function(num1,num2){
+ 			return num1 + num2;
+ 		};
+ 	* 构造函数创建
+ 		var sum = new Function("num1","num2","return num1 + num2"); //不推荐
+ 	* 理解“函数是对象，函数名是指针”；
+ 	* 理解指针与调用函数
+ 		function sum(num1,num2){
+ 			return num1 + num2;
+ 		}
+ 		alert(sum(10,10));		//20
+
+ 		var anotherSum = sum;
+ 		alert(anotherSum(10,10)); //20
+
+ 		sum = null;
+ 		alert(anotherSum(10,10)); //20
+
+ 		* 只写函数名 sum,而没有括号 sum(); 表示对指针的操作；
+ 		* sum = null; 意思是将指针与函数断绝；
+ 	5.5.1 没有重载
+ 		* 意思是多次命名函数，只有最后一次有效
+ 	5.5.2 函数声明与函数表达式
+ 		* 解析器会通过一个函数声明提升的过程（"function declaration hoisting"）;
+ 			console.log(sum(10,10));
+ 			function sum(num1,num2){
+ 				return num1 + num2;
+ 			}
+ 			- 可以正常运行
+ 	5.5.3 作为值得函数
+ 		* 访问函数指针而不执行函数：去掉括号 sum;
+ 		* 对数组中的 Object 项通过指定属性排序；
+ 			var arr = [{"name":"kkk","age":"22"},{"name":"mmm","age":"33"}];
+ 			function comparePropertyName(propname){
+ 				return function(obj1,obj2){
+ 					var val1 = obj1[propname];
+ 					var val2 = obj2[propname];
+ 					if(val1 > val2){
+ 						return 1;
+ 					}else if(val1 <val2){
+ 						return -1;
+ 					}else{
+ 						return 0;
+ 					}
+ 				}
+ 			}
+
+ 			arr.sort(comparePropertyName("age"));
+ 			console.log(arr);
+ 			arr.sort(comparePropertyName("name"));
+ 			console.log(arr)
+ 	5.5.4 函数内部属性
+ 		* 函数的内部有两个特殊的对象
+ 		* this / arguments
+ 		* 特殊对象： arguments 的属性 callee();
+	 		* callee 属性是一个指针，指向拥有这个 arguments 对象的函数；
+	 		* 例子：
+	 			1> 与函数名称有耦合现象
+		 			function factorial(num){
+		 				if(num <=1){
+		 					return 1;
+		 				} else{
+		 					return num * factorial(num-1);
+		 				}	
+		 			}
+		 			- 这是一个阶乘函数
+		 			- 阶乘中与函数名耦合（有直接的关系；函数名变更会导致错误）
+		 			- 如果下面这样
+		 				var testFun = factorial;
+		 				factorial = null;
+		 				testFun(10);	// 
+		 		2> 与函数名称无耦合现象
+		 			function factorial(num){
+		 				if(num <=1){
+		 					return 1;
+		 				} else {
+		 					return num * arguments.callee(num-1)
+		 				}
+		 			}
+		* this 对象
+			- this 引用的是函数根据以执行的环境对象；
+			- 例子：
+				window.color = "red";
+				var o = { color:"blue"};
+				function sayColor(){
+					alert(this.color);
+				}
+
+				sayColor(); // red
+
+				o.sayColor = sayColor; 
+				o.sayColor();   // blue
+			- 函数的名字仅仅是一个包含指针的变量。即使是在不同的环境中执行，全局的 sayColor() 函数与 o.sayColor() 指向的任然是同一个函数；
+		* caller属性
+			- 这个属性保存着调用当前函数的函数引用
+			- 如果在全局作用域中调用当前函数，它的值为 null;
+			- 例子：	
+				function outer(){
+					inner();
+				}	
+				function inner(){
+					console.log(inner.caller);
+				}
+				outer();
+
+			- 松散耦合
+				function outer(){
+					inner();
+				}
+				function inner(){
+					console.log(arguments.collee.caller;
+				}
+	5.5.5 函数属性和方法
+		* 每个函数都包含两个属性： length / prototype
+		* length 属性
+			- 表示函数希望接收的命名参数个数
+			- 例子：
+				function sum(num1,num2,num3){
+					return num1 + num2 + num3;
+				}
+				console.log(sum.length);
+		* prototype 属性
+			- 对于ECMAScript中的引用类型而言，prototpe是保存它们所有实例方法的真正所在。
+			- toString() / valueOf() ... 都保存在 prototype 属性内
+			- 只不过是通过各自对象的实例访问
+		* 每个函数都包含两个非继承而来的方法：apply() 和 call();
+			- 用途: 在特定的作用域中调用函数
+			- 实际上等于设置函数体内 this 对象的值。
+			- apply() 方法
+				*接收两个参数：
+					1> 在其中运行函数的作用域
+					2> 参数数组,可以是 Array 实例，也可以是 arguments 对象
+						- L例子
+						function sum(num1, num2){
+							return num1 + num2;
+						} 
+						function callSum1(num1,num2){
+							return sum.apply(this, arguments);
+						}
+						function callSum2(num1,num2){
+							return sum.apply(this,[num1,num2]);
+						}
+						alert(callSum1(10,10));
+						alert(callSum2(10,10));
+					3> 在严格模式下，未指定环境对象而调用函数，则 this 值不会转型为 windows;否则 this 值为 undefined;
+			- call() 方法;
+				* 接收两个参数,同 apply();
+				* 不同点：第二个参数必须一一列举出来
+				* 例子： 
+					function sum(num1,num2){
+						return num1 + num2;
+					}
+					function callSum(num1, num2){
+						return sum.call(this, num1, num2);
+					}
+					alert(callSum(10,10));
+			- call() 和 apply() 真正强大在于扩充函数赖以运行的作用域
+				* 例子：
+					window.color = "red";
+					var o = {color:"blue"};
+
+					function sayColor(){
+						alert(this.color);
+					}
+
+					sayColor.call(this);	// red
+					sayColor.call(window);	// red
+					sayColor.call(o);		// blue
+			- 使用 call() 和 apply() 扩充作用域最大的好处是对象不需要与方法有任何耦合关系。
+			- bind()方法 （ECMAScirpt5） ie9+
+				* 通过将函数绑定给对象创建新的实例
+				* 例子：
+					window.color = "red";
+					var o = { color: "blue"};
+					function sayColor(){
+						alert(this.color);
+					}
+					var objectSayColor = sayColor.bind(o);
+					objectSayColor();				
  5.6 基本包装类型
+ 	* 为了便于操作基本类型值，ECMAScript 还提供了3个特殊的引用类型： Boolean/Number/String
+ 	* 例子：
+ 		var s1 = "some text";
+ 		var s2 = s1.substring(2);
+ 		后台的操作：
+ 		var s1 = new String("some text");
+ 		var s2 = s1.substring(2);
+ 		s1 = null;
+ 	* 引用类型值与基本包装类型值区别：对象的生存期不同
+ 		- 引用类型值对象一直存在
+ 		- 基本包装类型值在操作完成后销毁
+ 		- 不能为基本包装类型值添加方法属性
+ 	5.6.1 Boolean 类型
+ 		
  5.7 单体内置对象
  5.8 小结

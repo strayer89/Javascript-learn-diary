@@ -17,18 +17,18 @@
 		// var newBirth = new Date(myBirthday.setFullYear(1990))
 		// console.log(newBirth)
 
-		var re = null,
-				 i;
-		for(i=0; i<10; i++){
-			re = /cat/g;
-			var test1 = re.test("catastrophe");
-			console.log(test1);
-		};
-		for(i=0; i<10; i++){
-			re = new RegExp("cat","g");
-			var test2 = re.test("catastrophe");
-			console.log(test2);
-		}
+		// var re = null,
+		// 		 i;
+		// for(i=0; i<10; i++){
+		// 	re = /cat/g;
+		// 	var test1 = re.test("catastrophe");
+		// 	console.log(test1);
+		// };
+		// for(i=0; i<10; i++){
+		// 	re = new RegExp("cat","g");
+		// 	var test2 = re.test("catastrophe");
+		// 	console.log(test2);
+		// }
 
 		// var start = +Date.now();
 		// var myDate = new Date();
@@ -37,7 +37,60 @@
 		// 	}
 		// 	var stop = +Date.now();
 		// 	result = stop - start; //doSomething() 所用的时间
-		// 	console.log(result);
+		///////////////////////////
+			// 	console.log(result); //
+			///////////////////////////
+
+
+		// var arr = [{name:"a",age:33},{name:"b",age:22}];
+ 	// 		function comparePropertyName(propname){
+ 	// 			return function(obj1,obj2){
+ 	// 				var val1 = obj1[propname];
+ 	// 				var val2 = obj2[propname];
+ 	// 				if(val1 > val2){
+ 	// 					return 1;
+ 	// 				}else if(val1 <val2){
+ 	// 					return -1;
+ 	// 				}else{
+ 	// 					return 0;
+ 	// 				}
+ 	// 			}
+ 	// 		}
+
+ 	// 		arr.sort(comparePropertyName("age"));
+ 	// 		console.log(arr);
+ 	// 		arr.sort(comparePropertyName("name"));
+ 	// 		console.log(arr)
+
+ 	// var num = 10;
+ 	// function factorial(num){
+ 	// 	if(num <=1 ){
+ 	// 		return num;
+ 	// 	} else {
+ 	// 		return num * arguments.callee(num-1);
+ 	// 	}
+
+ 	// }
+ 	// var sum = factorial(num);
+ 	// console.log(sum);
+
+ 	// function outer(){
+ 	// 	inner();
+ 	// }
+ 	// function inner(){
+ 	// 	console.log(inner.caller);
+ 	// }
+ 	// outer();
+
+ 	function sum(num1,num2,num3){
+		return sum1 + sum2 + sum3;
+	}
+	console.log(sum.length)	
+
+
+
+
+	
 	</script>
 </body>
 </html>
