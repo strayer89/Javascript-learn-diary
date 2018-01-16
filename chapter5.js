@@ -683,6 +683,10 @@
  					console.log(str.slice(3,-4))	// "lo w"
  					console.log(str.substr(3,-4))	// ""
  					console.log(str.substring(3,-4))// "hel"	
+
+ 					console.log(str.substring(3,0)); // "hel"
+ 					console.log(str.substring(0,3)); // "hel"
+
  		3> 字符串位置
  			* indexOf() 和 lastIndexOf() 方法
  			* 从一个字符串中搜索子字符串的方法
@@ -720,7 +724,161 @@
  			* toLocaleLowerCase()	转当地小写
  			* toLocaleUpperCase()	转当地大写
  		6> 字符串的模式匹配方法
- 		7> 
- 		8>
+ 			* match() 方法
+ 				- 值接收一个参数（正则表达式、RegExp 对象）;
+ 				- 返回匹配字符串组成的数组对象;
+ 				- 未找到返回 "null"
+ 				- 例子：
+ 					var text = "cat, bat, sat, fat";
+ 					var pattern = /.at/;
+ 					var matches = text.match(pattern);
+ 					console.log(matches);	// ["cat", "bat", "hat", "rat"]
+ 			* search() 方法
+ 				- 唯一参数与 math() 相同
+ 				- 未找到返回 -1；
+ 				- 例子：
+ 					var text = "cat, bat, hat, sat, fat";
+ 					var pattern = /.at/;
+ 					var textArr = text.search(pattern);
+ 					console.log(textArr);
+ 			* replace() 方法 ECMAScirpt 5
+ 				- 接收两个参数
+ 				- 第一个参数：RegExp 对象 / 字符串；
+ 				- 第二个参数：字符串 / 函数；
+ 				- 字符串参数只能替换一个
+ 				- 例子：
+ 					var text = "cat, bat, sat, fat";
+ 					var result = text.replace("at","ond");
+ 					alert(result);
+ 				- 正则表达式可以替换全局
+ 					var result = text.replace(/at/g,"ond");
+ 				- 第二个参数时函数时
+ 					function htmlEscape(text){
+ 						return text.replace(/[<>"&]/g,function(match, pos, originalText){
+ 							switch(match){
+ 								case "<":
+ 									return "&lt;";
+ 								case ">":
+ 									return "&gt;";
+ 								case "&":
+ 									return "&amp;";
+ 								case "\"": 
+ 									return "&quot;";
+ 							}
+ 						})
+ 					}
+ 					alert(htmlEscape("<p class=\"greeting\">Hello World!</p>"));
+ 			* split() 方法
+ 				- 基于指定分隔符将字符串分隔多个字符串
+ 				- 两个参数
+ 				- 第一个是分隔符号或者正则表达式对象
+ 				- 第二个是指定数组大小
+ 				- 返回数组
+ 				- 例子：
+ 					var str = "cat, hat, jat, mat, abc/bbc, new|old, blue^yellow";
+ 					var strArr1 = str.split(","，2);
+ 					var strArr2 = str.split(/[,/|]/g);
+ 					console.log(strArr1,strArr2);
+ 		7> localeCompare() 方法
+ 			- 比较字母表位置
+ 			- 例子：
+ 				var stringValue = "yellow";
+ 				alert(stringValue.localeCompare("brick")); // -1
+ 				alert(stringValue.localeCompare("yes")); // 0
+ 				alert(stringValue.localeCompare("zoo")); // 1
+ 				alert()
+ 		8> fromCharCode()方法
+ 			- 接收一到多个字符编码，转换成字符串
+ 			- 例子：
+ 				alert(String.fromCharCode(104,101,108,108,111));	//"hello"
+
  5.7 单体内置对象
- 5.8 小结
+ 	* 定义：由ECMAScript提供的、不依赖于宿主环境的对象，这些对象在ECMAScript程序执行之前就已经存在了
+ 	* Global 和 Math
+ 	5.7.1 Global 对象
+ 		- 所有在全局环境中定义的变量和函数都是 Global 的属性和方法
+ 		- isNaN() / isFinite() / parseInt() / parseFloat() 都是Global的方法
+ 		1> URI 编码方法
+ 			* Global 对象的 encodeURI() 和 encodeURIComponent() 方法可以对 URI(Uniform Resource Identifiers, 通用资源标识符)进行编码，以便发送给浏览器
+ 			* encodeURI() 主要用于整个RUI（如：http://www.wrox.com.illegal value.htm）
+ 				var uri = "http://www.wrox.com.illegal value.html#start";
+ 				console.log(encodeURI(uri));
+ 				// http://www.wrox.com.illegal%20value.html#start
+ 				console.log(encodeURIComponent(uri));
+ 				// http%3A%2Fwww.wrox.com%2Fillegal%20value.htm%23start
+ 			* 使用 encodeURI() 除了空格其他不动
+ 			* 使用 encodeURIConponent() 将所有非数字字母字符转化
+ 			* 与之对应的是 decodeURI() 和 decodeURIComponment() 反解码；
+ 		2> eval()方法
+ 			* ECMAScirpt中最强大的一个方法 eval();
+ 			* 像一个完整的ECMAScript解析器
+ 			* 值接收一个字符串参数；
+ 			* 例子：
+ 				eval("alert('hi')");
+ 				等同于：
+ 				alert("hi");
+ 			* 在 eval()中创建的函数不会被提升；它们只有在 eval()执行的时候才会创建；
+ 			* 严格模式 eval()不能用
+ 		3> Global 对象的属性
+ 			undefined 特殊值			Date			构造函数	
+ 			NaN		  特殊值			RegExp  		构造函数
+ 			Infinity  特殊值			Error  			构造函数
+ 			Object	  构造函数			EvalError   	构造函数
+ 			Array 	  构造函数			RangeError  	构造函数
+ 			Function  构造函数			ReferenceError  构造函数
+ 			Boolean   构造函数			SyntaxError  	构造函数
+ 			String 	  构造函数			TypeError  		构造函数
+ 			Number 	  构造函数			URIError  		构造函数
+ 		4> window 对象
+ 			* Web 浏览器都是讲 Global 作为 window 对象的一部分加以实现的。
+ 	5.7.2 Math 对象
+ 		* 与js直接计算相比，Math 对象提供的计算功能执行起来要快的多
+ 		* Math 对象中还提供了辅助完成这些计算的属性和方法
+ 		1> Math 对象的属性
+ 			Math.E 			自然对数的地鼠，即常量e的值
+ 			Math.LN10		10的自然对数
+ 			Math.LN2		2的自然对数
+ 			Math.LOG2E		以2为底e的对数
+ 			Math.LOG10E		以10为底e的对数
+ 			Math.PI 		π的值
+ 			Math.SQRT1_2 	1/2的平方根（2的平方根的倒数）
+ 			Math.SQRT2 		2的平方根
+ 		2> min() / max() 方法
+ 			* 确定一组数中的最大值最小值
+ 			* 接收任意多个数值参数
+ 			* 例子：
+ 				var max = Math.max(2,33,45,234,221);
+ 				console.log(max)
+
+ 				var min = Math.min(2,33,45,234,221);
+ 				console.log(min)
+ 			* 获取数组中的最大值最小值
+ 				var arr = [1,2,2,3.4,55,85,65];
+ 				var max = Math.max.apply(Math,arr);
+ 				console.log(max);
+ 				-- 关键是 Math.max()不能传递参数
+ 				-- 而 max() 的方法可以确定执行环境并以数组形式传递参数
+ 		3> 舍入方法
+ 			* Math.ceil()  执行向上舍入	-- Math.ceil(10.1)  // 11
+ 			* Math.floor() 执行向下舍入 -- Math.floor(10.9) // 10
+ 			* Math.round() 执行标准舍入 -- Math.round(10.5) // 11
+ 		4> random() 方法
+ 			* 返回介于0-1之间的一个随机数，不包括0-1；
+ 			* 获取随机数的技巧
+ 				var value = Math.floor(Math.random()*可能的总数 + 第一个可能的值);
+ 				获取 1-100 的随机数
+ 				var value = Math.floor(Math.random()*100 + 1);
+
+ 5.8 小结 ECMAScript
+ 	对象在 JavaScript 中被称为引用类型的值，而且有一些内置的引用类型可以用来创建特定的对象
+ 		1> 引用类型与传统面向对象程序设计中的类相似，但实现不同；
+ 		2> Object 是一个基础类型，其他所有类型都从 Object 继承了基本的行为
+ 		3> Array 类型是一组值得有序列表，同事还提供了操作和转换这些值的功能；
+ 		4> Date 类型提供了有关日期和时间的信息，包括当前日期和时间以及相关的计算功能；
+ 		5> RegExp 类型是 ECMAScript 支持正则表达式的一个接口，提供了最基本的和一些高级的正则表达式功能
+ 	函数实际上是 Function 类型的实例，因此函数也是对象；而这一点正是 JavaScript 最有特色的地方。由于函数时对象，所以函数也拥有方法，可以用来增强行为。
+ 	因为有了基本包装类型，所有JavaScript 中的基本类型值可以被当做对象来访问。三种基本包装类型分别是： Boolean/Number/String;特征如下
+ 		1> 每个包装类型都映射到同名的基本类型
+ 		2> 在读取模式下访问基本类型时，就会创建对应的基本包装类型的一个对象，从而方便了数据操作；
+ 		3> 操作基本类型值得语句一经执行完毕，就会立即销毁新创建的包装对象。
+ 	在所有代码执行之前，作用域中就已经存在两个内置对象：Global 和 Math 。大多数 ECMAScirpt 实现中都不能直接访问 Global 对象；不过， Web浏览器实现了继承该角色的 window 对象。 全局变量和函数都是 Global 对象的属性。 Math 对象提供了很多属性和方法，用于辅助完成复杂的数学计算任务。
