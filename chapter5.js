@@ -337,12 +337,23 @@
 			* 专门为捕获组而设计的
 			* 接收一个参数，要应用模式的字符串
 			* 包含两个属性 index 和 input，index 表示匹配项在字符串中的位置，input 表示应用正则表达式的字符串
+				- 例子：
+					var text = "mom and dad and baby";
+					var pattern = /mom( and dad( and baby)?)?/gi;
+					
+					var matches = pattern.exec(text);
+					alert(matches.index); //0
+					alert(matches.input);
+					alert(matches[0]);
+					alert(matches[1]);
+					alert(matches[2]);
+					
 		2> test() 方法；
 			* 接收一个字符串参数。匹配返回 true ,不匹配返回 false
 			* 例子：
 				var text = "000-00-0000";
 				var pattern = /\d{3}-\d{2}-\d{4}/;	
-				if(pattern.test(test)){
+				if(pattern.test(text)){
 					alert("the pattern was matched");
 				}
 			* RegExp 实例继承的 toLocaleString() 和 toString() 方法返回正则表达式的字面量
@@ -571,9 +582,145 @@
  		s1 = null;
  	* 引用类型值与基本包装类型值区别：对象的生存期不同
  		- 引用类型值对象一直存在
+ 			* 引用类型的实例，在执行流离开当前作用域之前都一直保存在内存中。
+ 			* 自动黄建的基本包装类型的对象，则只存在于一行代码的执行瞬间，然后立即被销毁；
  		- 基本包装类型值在操作完成后销毁
  		- 不能为基本包装类型值添加方法属性
+ 		- 例子：
+ 				var s1 = "some text";
+ 				s1.color = "red";
+ 				alert(s1.color);  // undefined；
+ 		- 可以显式调用 Boolean / String / Number 来创建基本的包装类型的对象。
+ 		- 例子：
+ 			var obj = new Object("some text");
+ 			alert(obj instanceof String) // true
+ 		- 调用 new 操作符和 运用转型函数时不同的
+ 		- 例子：
+ 			var num = Number("333");
+ 			console.log(typeof num) // number
+
+ 			var num = new Number("333");
+ 			consolelog(typeof num);	// object
  	5.6.1 Boolean 类型
- 		
+ 		* 创建 Boolean 引用类型容易让人误解
+ 		* 例子： 
+ 			var bool = new Boolean(false);
+ 			var jug = bool && true;
+ 			console.log(jug) 	// true 因为bool 时非null object， 返回第二个值
+
+ 			var bool = false;
+ 			var jug = bool && true;
+ 			console.log(jug); 	// false // 因为bool 为false；
+ 	5.6.2 Number 类型
+ 		* Number 类型也重写了 valueOf() / toLocalString() / toString() 方法
+ 		* 重写后的 valueOf() 方法返回对象表示的基本类型的数值
+ 		* 另外两个方法返回字符串形式的数值。
+ 		* toFixed() 方法
+ 			var num1 = 10;
+ 			var num2 = 10.005;
+ 			console.log(num1.toFixed(2));	// 10.00
+ 			console.log(num2.toFixed(2));	// 10.01
+ 			- 参数为保存小数点后面位数
+ 			- 可以四舍五入
+ 			- IE8之前的版本不能正确地舍入 ：[-0.94,-0.5] 与 [0.5,0.94] 之间的值
+ 		* toExponential() 方法
+ 			- 格式化数值的方法
+ 			- 例子：
+ 				var num = 100;
+ 				console.log(num.toExponential(1));  1.0e+2  10的2次幂
+ 		* toPrecision() 方法
+ 			- 这个方法接收一个参数，即表示数值的所有数字的位数。
+ 			- 例子：
+ 				var num = 99;
+ 				console.log(num.toPrecision(1));	//	1.0e+2   100四舍五入
+ 				console.log(num.toPrecision(2));	//99
+ 				console.log(num.toPrecision(3));	// 99.0
+ 			- toPrecision() 可以表现1到21位小数，某些支持更大
+ 	5.6.3 String 类型
+ 		1> 字符方法
+ 			* 访问字符串中特定字符的方法
+ 			* charAt() 和 charCodeAt();
+ 			* 都只接受一个参数，基于0的字符位置。
+ 			* charAt() 方法
+ 				- 返回下标位置的单个字符
+ 				- 例子：
+ 					var str = "hello world";
+ 					alert(str.charAt(1))	// "e"
+ 			* charCodeAt() 方法
+ 				- 返回下标位置的字符编码
+ 				- 例子：
+ 					var str = "hello world";
+ 					alert(str.charCodeAt(1))	// "101"
+ 			* ECMAScirpt5 定义了 /[] 下标访问方法  IE8+
+ 				- 例子：
+ 					var str = "hello world";
+ 					alert(str[0]);
+ 		2> 字符串操作方法
+ 			* 全部都是基于子字符串创建新的字符串方法，不会对原字符串影响
+ 			* concat()方法 // 不如使用 + 拼接字符串；
+ 				- 拼接字符串，返回新的字符串
+ 				- 例子：
+ 					var str = "hello";
+ 					var str1 = str.concat("world","!");
+ 					console.log(str1) // "hello world!"；
+ 			* slice() / substr() / substring() 方法
+ 				- 接收1-2个参数
+ 				- 第一个是开始位置，第二个是结束位置，没有第二个那就截取到尾部
+ 				- substr() 第二个参数为截取参数个数
+ 				- 例子：
+ 					var str = "hello world";
+ 					console.log(str.slice(3));		// "lo world"
+ 					console.log(str.substr(3));		// "lo world"
+ 					console.log(str.substring(3));	// "lo world"
+ 					console.log(str.slice(3,7));	// "lo w"
+ 					console.log(str.substr(3,7));	// "lo w"
+ 					console.log(str,substring(3,7));// "lo worl"
+ 				- 传递负值例子：
+ 					var str = "hello wrold";
+ 					console.log(str.slice(-3))		// "old"
+ 					console.log(str.substr(-3))		// "old"
+ 					console.log(str.substring(-3))	// "hello world"
+ 					console.log(str.slice(3,-4))	// "lo w"
+ 					console.log(str.substr(3,-4))	// ""
+ 					console.log(str.substring(3,-4))// "hel"	
+ 		3> 字符串位置
+ 			* indexOf() 和 lastIndexOf() 方法
+ 			* 从一个字符串中搜索子字符串的方法
+ 			* 搜索不到返回 -1；
+ 			* indexOf() 从前向后搜索，
+ 			* lastIndexOf() 从后向前搜索
+ 				- 例子：
+	 				var str = "hello world";
+	 				console.log(str.indexOf("o"));			//4
+	 				console.log(str.lastIndexOf("o"));		//7
+ 			* 两个参数时指定搜索开始位置
+ 				- 例子：
+	 				var str = "hello world";
+	 				console.log(str.indexOf("o",6));		// 7
+	 				console.log(str.lastIndexOf("o",6));	//4
+ 			* 通过第二个参数可以从字符串中搜索所有符合的字符串
+ 				- 例子
+ 					var str = "Lore ipsum dolor sit amet, consectetur adipisicing elit";
+ 					var arr = new Array();
+ 					var loc = str.indexOf("s");
+ 					while(loc > -1){
+ 						arr.push(loc);
+ 						loc = str.indexOf("s",loc+1);
+ 					}
+ 					console.log(arr)
+ 		4> trim() 方法返回对象表示的基本类型的数值 IE9+
+ 			* ECMAScirpt5 消除前置后置空格
+ 				- 例子：
+ 					var str = "  hello world  ";
+ 					var strTrim = str.trim();
+ 					console.log(strTrim);
+ 		5> 字符串大小写转换
+ 			* toLowerCase()	转小写
+ 			* toUpperCase() 转大写
+ 			* toLocaleLowerCase()	转当地小写
+ 			* toLocaleUpperCase()	转当地大写
+ 		6> 字符串的模式匹配方法
+ 		7> 
+ 		8>
  5.7 单体内置对象
  5.8 小结
