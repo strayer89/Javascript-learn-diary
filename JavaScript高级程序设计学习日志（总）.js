@@ -212,7 +212,7 @@ JavaScript高级程序设计（第三版）
 			*valueOf()方法; 返回对象的字符串、数值或者布尔值表示 |obj.valueOf()???|
 
 
-3.5操作符（算数操作符、位操作符、关系操作符、相等操作符）
+  3.5 操作符（算数操作符、位操作符、关系操作符、相等操作符）
 	（可操作 数字、字符串、布尔值、对象）
 	1.一元递增和递减算数操作符
 		*计算规则/区别 
@@ -380,7 +380,7 @@ JavaScript高级程序设计（第三版）
 		* 使用","可以在一条语句执行多个操作
 		* var num1 = 1, num2 = 2, num3 = 3;
 
-三、语句（流控制语句）
+ 3.6 语句（流控制语句）
 	1> if 语句
 		* if (consition) statement1 else statement2;
 		* 	if(任何数据 非 Boolean 将调用 Boolean()){
@@ -499,8 +499,7 @@ JavaScript高级程序设计（第三版）
 				alert("other");
 			}
 
-四、函数
-<<<<<<< HEAD:chapter1-3.js
+  3.7 函数
 	0> function functionName(arg0,arg1,arg2,...,ageN){statement}
 	1> 严格模式对函数的一些限制
 		* 不能把函数命名为 eval 或 arguments
@@ -525,23 +524,18 @@ JavaScript高级程序设计（第三版）
 	3> 没有重载
 		* 两个函数同名，则后定义函数覆盖先定义函数；
 
-小结：
-	* ECMAScript 中的基本数据类型 Undefined / Boolean / String/ Number / null 
-	* ECMAScript 中的复杂数据类型 Object; 该类型是这门语言中 |所有对象的基础类型|
-	* 严格模式为这门语言中容易出错的地方施加了限制
-	* ECMAScript 提供了 算数操作符、布尔操作符、关系操作符、相等操作符、复制操作符；
-	* 无需指定函数的返回值，因为 ECMAScript 函数可以在任何时候返回任何值；
-	* 实际上，未指定返回值的函数返回的是一个特殊的 undefined 值；
-	* ECMAScript 没有函数签名的概念，因为其函数参数是以一个包含零活多个值得数组的形式传递。
-	* 可以向 ECMAScript函数传递任意数量参数，并通过arguments对象访问这些参数。
-	* 由于不存在函数签名的特性，ECMAScript函数不能重载
-=======
-	1> function functionName(arg0,arg1,arg2,...,ageN){statement}
-	2> 1
->>>>>>> origin/master:Js_learn_diary.js
+	小结：
+		* ECMAScript 中的基本数据类型 Undefined / Boolean / String/ Number / null 
+		* ECMAScript 中的复杂数据类型 Object; 该类型是这门语言中 |所有对象的基础类型|
+		* 严格模式为这门语言中容易出错的地方施加了限制
+		* ECMAScript 提供了 算数操作符、布尔操作符、关系操作符、相等操作符、复制操作符；
+		* 无需指定函数的返回值，因为 ECMAScript 函数可以在任何时候返回任何值；
+		* 实际上，未指定返回值的函数返回的是一个特殊的 undefined 值；
+		* ECMAScript 没有函数签名的概念，因为其函数参数是以一个包含零活多个值得数组的形式传递。
+		* 可以向 ECMAScript函数传递任意数量参数，并通过arguments对象访问这些参数。
+		* 由于不存在函数签名的特性，ECMAScript函数不能重载
 
-
-第四章 4 变量作用域与内存问题
+第四章 变量作用域与内存问题
 4.1 基本类型和引用类型的值
 		* ECMAScript中|变量|可能包含两种数据类型：（基本类型值/引用类型值）
 		* 对变量赋值时，解析器首先确定是 基本数据类型/ 复杂数据类型
