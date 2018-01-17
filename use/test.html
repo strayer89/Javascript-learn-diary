@@ -249,7 +249,193 @@
 		// 	var person2 = createPerson("zz",30,"eng");
 		// 	console.log(person1);
 
-		console.log(RegExp);
+		//////////////////////////
+		// console.log(RegExp); //
+		//////////////////////////
+
+		//错误
+		// function Person(name,age,job){
+		// 	prototype.name = name;
+		// 	prototype.age = age;
+		// 	prototype.job = job;
+		// 	prototype.sayName = function(){
+		// 		console.log(this.name);
+		// 	}
+		// };
+
+		// var person1 = new Person("kk",23,"FE");
+		// person1.sayName()
+
+		// var person2 = new Person("kbk",233,"FEb");
+		// person2.sayName();
+
+		// console.log(person1.sayName == person2.sayName);
+
+		// function Person(){};
+
+		// Person.prototype.name = "kk";
+		// Person.prototype.age = 23;
+		// Person.prototype.job = "FE";
+		// Person.sayName = function(){
+		// 	console.log(this.name);
+		// };
+		// var person1 = new Person();
+		// console.log(person1.hasPrototypeProperty("name"));
+		// 
+		// 
+		// console.log(person1.name);
+		
+		// person1.constructor.prototype.age = "100";
+		// console.log(person1.age);
+
+		// person1.name = "kang";
+		// console.log(person1.name);
+
+		// var Person = {};
+		// console.log(Person.prototype);
+
+		// function Person(){};
+		// var friend = new Person();
+		// Person.prototype.name = "kk";
+		// Person.prototype.age = 34;
+		// Person.prototype.job = "FE";
+		// Person.prototype.sayName = function(){
+		// 	alert(this.name);
+		// }
+
+		// console.log(friend.age);
+
+		// function Person(){};
+		// 				var friend = new Person();
+		// 				Person.prototype = {
+		// 					name:"kk",
+		// 					age:23,
+		// 					job:"FE",
+		// 					sayName: function(){
+		// 						alert(this.name);
+		// 					}
+		// 				}
+
+		// 				console.log(friend.name);
+		
+		// var arr = []; 
+		// var obj = { name:"kk",age:23}
+		// for(var prop in String.prototype){
+		// 	arr.push(prop);
+		// };
+		// console.log(arr);
+
+	// function Person(){
+	// }
+	// Person.prototype.name = "“Nicholas”";
+	// Person.prototype.age = 29;
+	// Person.prototype.job = "“Software";
+	// Person.prototype.sayName = function(){
+	//  console.log(this.name);
+	// };
+	// var keys = Object.keys(Person.prototype);
+	// console.log(keys); //”name,age,job,sayName”
+	// var p1 = new Person();
+	// p1.name = "“Rob”";
+	// p1.age = 31;
+	// var p1keys = Object.keys(p1);
+	// console.log(p1keys); //”name,age”
+
+	// function Person(){};
+	// 	Person.prototype = {
+	// 		constructor: Person,
+	// 		name:"kk",
+	// 		age:23,
+	// 		job:"FE",
+	// 		friends:["amy","json"],
+	// 		sayName:function(){
+	// 			console.log(this.name);
+	// 		}
+	// 	}
+	// 	var person1 = new Person();
+	// 	var person2 = new Person();
+
+	// 	person1.friends.push("kkk");
+	// 	console.log(person1.friends);
+	// 	console.log(person2.friends);
+
+	// function SpecialArray(){
+	// 	var value = new Array();
+	// 	value = arguments;
+	// 	// value.push.apply(value,arguments);
+	// 	value.toPipedString = function(){
+	// 		return this.join("|");
+	// 	};
+	// 	return value;
+	// }
+	// var colors = new SpecialArray("red","blue","green");
+	// console.log(colors);
+	// console.log(colors.toPipedString());
+
+	// function add(){
+	// 	console.log(this.add == arguments.callee)
+	// }
+	// add();
+
+	// function Person(){
+	// 	this.manKind = "human";
+	// }
+	// Person.prototype.getManKind = function(){
+	// 	return this.manKind;
+	// };
+
+	// function Dog(){
+	// 	this.dogKind = "dog";
+	// }
+
+	// Dog.prototype = new Person();
+
+	// Dog.prototype.getDogKind = function(){
+	// 	return this.dogKind;
+	// };
+	
+	// var instance = new Dog();
+	// console.log(instance.getDogKind());
+	// console.log(Dog.prototype);
+	// console.log(Person.prototype);
+
+	function Person(){
+		this.name = "person";
+		this.age = 30;
+	}
+	Person.prototype.sayName = function(){
+		console.log(this.name);
+	}
+
+	function Dog(){
+		this.name = "dog";
+		this.size = "big";
+	}
+	Dog.prototype.sayName = function(){
+		console.log(this.size);
+	};
+
+	
+	Dog.prototype = new Person();
+	
+
+	var ww = new Dog();
+
+	console.log(ww.name);
+	console.log(ww.age);
+	ww.sayName();
+
+	
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -15,3 +15,4 @@
 15.configurable [kən'figərəbl]' 可配置的
 16.enumerable [ɪ'njʊmərəbl]' 可列举的 for-in
 17.writable  ['raitəbl]' 可写的
+18.Descriptor [dɪ'skrɪptɚ]' 描述符		Object.getOwnPropertyDescriptor()
