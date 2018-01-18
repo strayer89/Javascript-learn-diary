@@ -35,8 +35,9 @@
 				b> [[Enumerable]] 表示能否通过 for-in 循环访问属性; 上例 true
 				c> [[Writable]] 表示能否修改属性的值; 上例 true
 				d> [[Value]] 包含这个属性的数据值；默认 undefined
-
+				------------------------------------------------------
 				Object.defineProperty() 方法 *ECMAScript 5 ie8+
+				--------------------------------------------------------
 				- 接收三个参数：属性所在的对象、属性的名字、描述符对象
 				- 例子：
 					var person = {};
@@ -49,7 +50,7 @@
 				b> [[Enumerable]] 表示能否通过 for-in 循环访问属性; 上例 true
 				c> [[Get]] 在读取属性是调用的函数，默认：undefined；
 				d> [[Set]] 在写入属性是调用的函数，默认：undefined；
-				
+				--------------------------------------------------------
 				- 访问器属性的常见方式：设置一个属性的值会导致其他属性发生变化
 				- 例子：
 					var book = {
@@ -91,7 +92,9 @@
 					alert(book.edition); //2
 
 		6.1.2 定义多个属性
+			--------------------------------------------------------
 			* Object.defineProperties() 方法
+			--------------------------------------------------------
 			* 接收两个对象参数：
 				- 第一个对象时要添加和修改其属性的对象；
 				- 第二个对象与第一个对象中要添加或修改的属性一一对应。
@@ -118,10 +121,12 @@
 							}
 						}
 					});
-				* _year 下划线表示只能通过对象方法访问的属性	
+				* _year 下划线表示只能通过对象方法访问的属性
+				
 		6.1.3 读取属性的特性（内部特性，特定读取方法）
-			Object.getOwnPropertyDescriptor() 方法	ECMAScript 5
-			
+			---------------------------------------------------------
+			 Object.getOwnPropertyDescriptor() 方法	ECMAScript 5 
+			---------------------------------------------------------			
 			* 接收两个参数：属性所在的对象和尧都区其描述符的属性名称。
 			* 返回值是一个对象
 			* 例子：
@@ -156,12 +161,12 @@
 				alert(descriptor.value);  // undefined
 				alert(descriptor.enumerable); // false
 				alert(typeof descriptor.get); // "function"
-
 				数据属性：_year
 				访问器属性： year
 	6.2 创建对象
 		* Object 对象字面量创建单个对象：使用同一个接口创建很多对象，会产生大量的重复代码
 		6.2.1 工厂模式
+			--------------------------------------------------------
 			function createPerson(name, age, job){
 				var o = new Object();
 				o.name = name;
@@ -176,7 +181,9 @@
 			var person1 = createPerson("kk",23,"FE");
 			var person2 = createPerson("zz",30,"eng");
 			console.log(person1);
+			--------------------------------------------------------
 		6.2.2 构造函数模式
+			--------------------------------------------------------
 			function Person(name, age, job){
 				this.name = name;
 				this.age = age;
@@ -187,6 +194,7 @@
 			}
 			var person1 = new Person("kkk",23,"FE");
 			console.log(person1);
+			--------------------------------------------------------
 			* 创建自定义构造函数意味着将来可以将它的实例标识为一种特定的类型；
 			* 这正是构造函数胜过工厂模式的地方。
 			* 以自定义构造函数创建的对象时定义在Global对象（在浏览器中是 window 对象）中的。
@@ -251,10 +259,14 @@
 				* 通过构造函数创建的实例可以直接将构造函数原型对象的属性和方法定义为实例的属性和方法
 				* 上述是通过查找对象属性的过程来实现的。
 				* 判断一个实例对象是不是指向某个原型对象 
+				--------------------------------------------------------
 				* isPrototypeOf() 方法
+				--------------------------------------------------------
 					console.log(Person.prototype.isPrototypeOf(person1));
 					返回 true / false
+				--------------------------------------------------------
 				* getPrototypeOf();		ie9+
+				--------------------------------------------------------
 					- 获取一个实例对象的原型对象
 					console.log(Object.getPrototypeOf(person1) == Person.prototype);
 				* 搜索机制
@@ -286,7 +298,9 @@
 						使用 delete 操作符删除实例对象的属性
 
 						delete person1.name; 删除的是实例对象的属性
+				--------------------------------------------------------
 				* hasOwnProperty() 继承自 Object 方法
+				--------------------------------------------------------
 					- 只能访问实例是不是有自己的属性
 					- 不能访问实例原型对象属性
 				* ECMAScript 5 的 Object.getOwnPropertyDescriptor()方法只能用于实例属性。要取得原型属性的描述符，必须直接在原型对象上调用 Object.getOwnPropertyDescriptor();
@@ -511,6 +525,7 @@
 			* ECMAScript只支持实现继承，而其实现继承主要是依靠原型链来实现的。
 		6.3.1 原型链
 			* 基本思想：利用原型让一个引用类型继承另一个引用类型的属性和方法
+			* 实现方法：构造函数实例化时，实例化对象默认获取内部指针指向原型对象
 				- 例子
 					function Person(){
 						this.manKind = "human";
@@ -533,4 +548,217 @@
 					console.log(instance.getDogKind());		// dog
 					console.log(Dog.prototype);	// Person {manKind:"human",getDogKind:fun(){})}
 					console.log(Person.prototype);	// {constructor:Person,getManKind:"human"}
+			1> 别忘记默认原型
+				* 所有的引用类型都默认继承了 Object，而继承通过原型链实现的
+			2> 确定原型和实例的关系
+				* 第一种：instanceof 操作符
+					console.log(instance instanceof Object);
+				* 第二种：isPrototypeOf()方法
+					console.log(Object.prototype.isPrototypeOf(instance));
+			3> 谨慎地定义方法
+				* 给原型添加方法的代码放在替换原型的语句之后
+					function SuperType(){
+						this.property = true;
+					}
+					SuperType.prototype.getSuperValue = function(){
+						return this.property;
+					};
+					function subType(){
+						this.subproperty = false;
+					}
+					//继承了SuperType 
+					SubType.prototype = new SuperType();
+					//添加新的方法
+					SubType.prototype.getSubValue = function(){
+						return this.subproperty;
+					};
+					// 重写超类型中的方法
+					SubType.prototype.getSuperValue = function(){
+						return false;
+					};
+					var instance = new SubType();
+					console.log(instance.getSuperValue());
+				* 在通过原型链实现继承时，不能使用对象字面量创建原型方法。这样做会重写原型链
+					function SuperType(){
+						this.property = true;
+					}
+					SuperType.prototype.getSuperValue = function(){
+						return this.property;
+					};
+					function SubType(){
+						this.subproperty = false;
+					}
+
+					// 继承了SuperType
+					SubType.prototype = new SuperType();
+					// 使用字面量添加新方法，会导致上一行代码无效
+					SubType.prototype = {
+						getSubValue : function(){
+							return this.subproperty;
+						},
+						someOtherMethod : function(){
+							return false;
+						}
+					};
+					var instance = new SubType();
+					console.log(instance.getSuperValue());
+			4>  原型链的问题
+				* 第一个问题
+					同不能全部用原型对象创建构造函数一样，一个实例修改了原型对象的引用类型属性的属性值，其他实例共享这个修改
+						function SuperType(){
+							this.color = ["red","blue","yellow"];
+						}
+						function SubType(){}
+						SubType.prototype = new Subtype();
+
+						var instance1 = new SubType();
+						instance1.color.push("green");
+						var instance2 = new SubType();
+						console.log(instance2.color); //["red","blue","yellow","green"]
+
+				* 第二个问题
+					- 在创建子类型的实例时，不能向超类型的构造函数中传递参数。
+					- 或者说在不影响所有对象实例的情况下，给超类型的构造函数传递参数
+					- 实践中很少会单独使用原型链
+		6.3.2 借用构造函数 (很少使用)
+			* 在解决原型中包含引用类型值所带来问题的过程中，开发人员使用一种叫做借用构造函数（constructor stealing）的技术
+			* 又叫做伪造对象或经典继承()
+				function SuperType(){
+					this.color = ["red","blue","yellow"];
+				}
+				function SubType(){
+					SuperType.call(this);
+				}
+
+				var instance1 = new SubType();
+				instance1.color.push("green");
+				console.log(instance1.color);
+				var instance2 = new SubType();
+				console.log(instance2.color);
+			1> 传递参数
+				* 相对原型链而言，借用构造函数有一个很大的优势：可以在子类型构造函数中向超类型构造函数传递参数；
+				function SuperType(){
+					this.name = name;
+				}
+				function SubType(){
+					SuperType.call(this,"kkk");
+					this.age = 29;
+				}
+
+				var instance = new SubType();
+				console.log(instance.name);
+				console.log(instance.age);
+			2> 问题
+				* 没有共用的方法，函数复用无从谈起
+				* 在超类型的原型中定义的方法，在子类型中是不可见的。
+		6.3.3 组合继承（伪经典继承）
+			* 将原型链和组合构造函数的技术组合到一起，发挥二者之长的一种继承模式
+			* 用调用构造函数继承构造函数的属性和方法
+			* 用原型链继承超类型的原型对象的属性和方法
+				function SuperType(name){
+					this.name = name;
+					this.colors = ["red","blue","green"];
+				}
+				SuperType.prototype.sayName = function(){
+					alert(this.name);
+				}
+				function SubType(name, age){
+					SuperType.call(this, name);
+					this.age = age;
+				}
+				SubType.prototype = new SuperType();
+				SubType.prototype.sayAge = function(){
+					alert(this.age);
+				};
+				var instance1 = new SubType("Nicholas",29);
+				instance1.colors.push("black");
+				alert(instance1.colors);
+				instance1.sayName();
+				instance1.sayAge();
+
+				var instance2 = new SubType("Greg",38);
+				alert(instance2.colors);
+				instance2.sayName();
+				instance2.sayAge();
+		6.3.4 原型式继承
+			* 借助原型可以基于已有对象创建新对象，同时还不必因此创建自定义类型
+				function object(o){
+					function F(){}
+					F.prototype = o;
+					return new F();
+				}
+				// 可以创建对象副本
+				var person = {
+					name:"Nicholas",
+					friends:["Shelby","Court","Van"]
+				};
+				var anotherPerson = object(person);
+				anotherPerson.name = "Greg";
+				anotherPerson.friends.push("Rob");
+
+				var yetAnotherPerson = object(person);
+				yetAnotherPerson.name = "Linda";
+				yetAnotherPerson.friends.push("Barbie");
+				alert(person.friends);
+			-------------------------------------------
+			* Object.create() 方法
+			-------------------------------------------
+				- 接收两个参数
+				- 第一个参数：一个用做新对象原型的对象
+				- 第二个参数：为新对象定义额外属性的对象（可选）
+				- 例子：
+					var person = {
+						name:"kkk",
+						friends:["Shelby","Court","Van"]
+					}
+					var anotherPerson = Object.create(person);
+					anotherPerson.name = "Greg";
+					anotherPerson.friends.push("Rob");
+
+					var yetAnotherPerson = Object.create(person);
+					yetAnotherPerson.name = "Linda";
+					yetAnotherPerson.friends.push("Barbie");
+					alert(person.friends);
+				- 这种方法共享原型对象中引用类型的值，所以和原型一样
+
+		6.3.5 寄生式继承
+			* 例子：
+				function object(o){
+					function F(){}
+					F.prototype = o;
+					return new F();
+				}
+				function createAnother(original){
+					var clone = object(original);
+					clone.sayHi = function(){
+						alert("hi");
+					};
+				}
+
+				var person = {
+					name: "kkk",
+					friends: ["Shelby","Court","Van"]
+				};
+				var anotherPerson = createAnother(person);
+				anotherPerson.sayHi();
+			* 使用寄生式继承来为对象添加函数，会由于不能做到函数复用而降低效率，这一点与构造函数模式类似。
+		6.3.6 寄生组合式继承
+			* 组合式继承的不足：无论什么情况下，都会调用两次超类型构造函数；
+			=========
+
+
+			=========
+
+	6.4 小结
+		ECMAScript 支持面向对象（OO）编程，但不实用类或者接口。对象可以在代码执行过程中创建和增强，因此具有动态性和非严格定义的实体。在没有类的情况下，可以采用下列模式创建对象。
+				1> 工厂模式，使用简单的函数创建独享，为对象添加属性和方法，然后返回对象。这个模式后来被构造模式所取代。
+				2> 构造函数模式，可以创建自定义引用类型，可以像创建内置对象实例一样使用 new 操作符。不过，构造函数模式也有缺点，每个成员无法得到复用，包括函数。由于函数可以不局限于任何对象，因此没有理由不在多个对象间共享函数。
+				3> 原型模式，使用构造函数的 prototype 属性指定那些应该共享的属性和方法。组合使用构造函数模式和原型模式时，使用构造函数定义实例属性，使用原型定义共享的属性和方法。
+			此外，还存在一下可供选择的继承模式
+				1> 原型式继承：可以再不必预先定义构造函数的情况下实现继承，其本质是执行对给定对象的浅赋值。而赋值得到的副本还可以得到进一步改造。
+				2> 寄生式继承： 与原型式继承非常相似，也是基于某个对象或某些信息创建的一个对象，然后增强对象，最后返回对象。为了解决组合继承模式由于多次调用超类型构造函数而导致的低效率问题，可以将这个模式与组合继承一起使用。
+				3> 寄生组合式继承，寄生组合式继承和组合继承的优点与一身，是实现基于类型继承的最有效方式。
+
+
+
 
