@@ -14,6 +14,7 @@
 			}  // 导致错误
 			* 这种创建方式的函数：匿名函数()
 			* 匿名函数的 name 属性是空字符串
+			* 匿名函数的 this 属性具有全局性
 	7.1 递归
 		* 递归函数时在一个函数通过名字调用自身的情况下构成的
 			- 例子：
@@ -174,13 +175,52 @@
 		7.2.2 关于 this 对象
 			* 在全局环境中，this 等于 window, 而当函数被作为某个对象的方法调用时， this 等于那个对象。
 			* 不过，匿名函数的执行环境具有全局性()，因此其 this 对象通常指向 window;
-			* 也就是说匿名函数内部的 this 指向全局对象 window
+			* 也就是说匿名函数内部的 this 指向全局对象 window;
+			* 例子：
+				var name = "the windows";
+				var object = {
+					name:"my object",
+					getName:function () {
+						return function () {
+							return this.name;
+						};
+					}
+				};
+				alert(object.getNameFunc()());   //"the window"；（非严格模式）
+			* 解决办法
+				- 将外部作用域中的 this 对象保存在一个闭包能够访问的变量例，就可以让闭包访问该对象了
+				- 例子：
+					var name = "the windows";
+					var obj = {
+						name : "myobject",
+						getNameFunc : function(){
+							var that = this;
+							return function(){
+								return that.name;
+							}
+						}
+					};
+				1> 匿名函数的 this 对象指向全局。
+				2> 函数的 this 对象不会访问外部函数的 this 对象，所以直接访问到 window 对象
+				3> 内部匿名函数访问变量会访问到外部对象的变量
+				4> 所以将外部的 this 对象保存在变量中，以便查找
+		7.2.3 内存泄漏
+			* 由于 ie9 之前的版本对js对象和COM对象使用不同的垃圾收集历程，因此闭包在 IE 的这些版本中会导致一些特殊的问题。
+			* 如果闭包的作用域链中保存着HTML元素，该元素将无法被销毁；
+				function assignHandler(){
+					var element = document.getElementById("someElement");
+					element.onclick = function(){
+						alert(element.id);
+					};
+				}
+				- 以上代码创建了一个作为 element 元素事件处理程序的闭包，而这个闭包又创建了一个循环引用;
+			* 通过以下代码可以解决问题
+				function assignHandler(){
+					var element = document.getElementById("someElement");
+					var id = element.id;
 
-function funcA() {
-    var a = 1, b = 2;
-    return funcB();
-    function funcB() {
-        return a + b;
-    }
-}
- 
+					element.onclick = function(){
+						alert(id);
+					};
+					elsement = null;
+				}
