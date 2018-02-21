@@ -1,0 +1,65 @@
+Dom基础    
+DOM：如何获取、添加、删除、修改HTML元素的标准（是W3C的标准）
+Js能改变页面中所有HTML元素
+Js能改变页面中说有HTML元素属性
+Js能改变页面中所有css样式
+Js能够对页面中所有事件作出反应
+查找元素
+1、通过id名查找
+2、通过class名查找
+3、通过标签名查找
+
+Dom改变Html
+1.改变标签内容
+innerHTML 通过 HTML Dom， Js改变了 HTML的标签内容
+docment.getElementById(id).innerHTML = new value;
+2.改变标签属性
+attribute
+document.getElementById(id).attribute = new value;
+FE:  document.getElementById(id).src = "https://www.baidu.com";
+3.改变标签样式（相当于改变行内样式）
+documentgetElementById(id).style.color = "blue"；
+标签（<a>）      标签属性     download/href/media/rel/target/type/style
+                          标签样式     style 行内样式优先
+                          标签内容     innerHTML
+
+HTML DOM 事件
+<h1 onclick="this.innerHTML='KKK'">123</h1>
+1.onload 和 onunload 事件
+onload事件可以检测浏览器类型和浏览器版本，可以根据这个加载正确的版本
+onload和onunload事件可用于处理cookie
+2.onchange事件
+onchange结合对输入字段的验证来使用
+    <input type="text" onchange="app()"> 每次改变都会调用app( )函数
+3.onmouseover和onmouseout事件
+鼠标移入移除事件
+4.onmouseup和onmousedown事件及onclick事件
+鼠标动作事件
+5.onkeyup 和 onkeydown 事件
+Dom 改变节点
+向已有的节点添加新的节点
+var para = doucment.createElement("p");
+var text = doucment.createTextNode("text");
+para.appendChild(text);
+-------------------------------
+var container = document.getElementById("container");
+-------------------------------
+container.appendChild(para);
+已经向container元素节点内添加了新的p标签节点
+    通过定位父级元素删除子元素
+var container = document.getElementById("container");
+var insedeElement = document.getElementById("inside");
+container.removeChild( insedeElement );
+
+
+
+
+
+
+
+
+
+
+
+
+
